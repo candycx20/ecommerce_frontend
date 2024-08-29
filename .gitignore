@@ -1,0 +1,8 @@
+# Node.js specific files and directories
+node_modules/       # Carpeta donde se almacenan los módulos de Node.js instalados
+npm-debug.log*      # Archivos de registro de depuración de npm
+yarn-debug.log*     # Archivos de registro de depuración de Yarn
+yarn-error.log*     # Archivos de registro de errores de Yarn
+
+# Environment variables
+.env                # Archivo que suele contener variables de entorno sensibles
