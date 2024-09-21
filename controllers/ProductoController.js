@@ -1,16 +1,10 @@
-import MarcaModel from "../models/A3-MarcaModel.js";
-import ProductoModel from "../models/B4-ProductoModel.js";
-import ProductoSucursalModel from "../models/C4-ProductoSucursalModel.js";
-
+import MarcaModel from "../models/A2-MarcaModel.js";
+import ProductoModel from "../models/B6-ProductoModel.js";
 
 export const getAllProductos = async (req, res) => {
     try {
         const productos = await ProductoModel.findAll({
             include: [
-                {
-                    model: ProductoSucursalModel,
-                    attributes: ['precio']
-                },
                 {
                     model: MarcaModel,
                     attributes: ['nombre']
@@ -36,6 +30,7 @@ export const getProducto = async (req, res) => {
 
 export const createProducto = async (req, res) => {
     try {
+        
        await ProductoModel.create(req.body)
        res.json({
            "message":"¡Registro creado correctamente!"

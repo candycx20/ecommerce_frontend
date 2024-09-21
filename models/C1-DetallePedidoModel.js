@@ -43,7 +43,7 @@ const DetallePedidoModel = db.define('detalle_pedidos', {
         }
     }
 }, {
-    tableName: 'detalle_pedido',
+    tableName: 'detalle_pedidos',
     timestamps: true
 });
 

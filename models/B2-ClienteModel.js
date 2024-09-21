@@ -1,13 +1,25 @@
 import db from "../database/db.js";
 import { DataTypes } from "sequelize";
 
-const SucursalModel = db.define('sucursales', {
-    no_sucursal: {
-        type: DataTypes.STRING(50),
+const ClienteModel = db.define('clientes', {
+    dpi: {
+        type: DataTypes.STRING(20),
+        allowNull: false
+    },
+    nit: {
+        type: DataTypes.STRING(20),
         allowNull: false
     },
     nombre: {
         type: DataTypes.STRING(100),
+        allowNull: false
+    },
+    apellido: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+    },
+    telefono: {
+        type: DataTypes.STRING(20),
         allowNull: false
     },
     direccion: {
@@ -19,12 +31,12 @@ const SucursalModel = db.define('sucursales', {
         allowNull: false
     },
     pais: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(100),
         allowNull: false
     },
-    telefono: {
-        type: DataTypes.STRING(15),
-        allowNull: true
+    fecha_nacimiento: {
+        type: DataTypes.DATE,
+        allowNull: false
     },
     estado: {
         type: DataTypes.TINYINT,
@@ -37,10 +49,18 @@ const SucursalModel = db.define('sucursales', {
     updatedAt: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
+    },
+    id_usuario: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'usuarios',
+            key: 'id'
+        }
     }
 }, {
-    tableName: 'sucursales',
+    tableName: 'clientes',
     timestamps: true
 });
 
-export default SucursalModel;
+export default ClienteModel;

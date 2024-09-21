@@ -46,14 +46,6 @@ const PedidoModel = db.define('pedidos', {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     },
-    id_sucursal: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: 'sucursales',
-            key: 'id'
-        }
-    },
     id_usuario: {
         type: DataTypes.INTEGER,
         allowNull: false,
