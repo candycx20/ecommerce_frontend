@@ -1,11 +1,14 @@
 import db from "../database/db.js";
 import { DataTypes } from "sequelize";
-import ProductoModel from "../models/B4-ProductoModel.js"
-import ProductoSucursalModel from "./C4-ProductoSucursalModel.js";
+import ProductoModel from "./B6-ProductoModel.js"
 
 const CarritoCompraModel = db.define('carrito_compras', {
     cantidad: {
         type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    total: {
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
     estado: {

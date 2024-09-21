@@ -2,54 +2,23 @@ import db from "../database/db.js";
 import { DataTypes } from "sequelize";
 
 const UsuarioModel = db.define('usuarios', {
-    dpi: {
-        type: DataTypes.STRING(20),
-        allowNull: false
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
-    nit: {
-        type: DataTypes.STRING(20),
-        allowNull: false
-    },
-    nombre: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-    },
-    apellido: {
+    nombre_usuario: {
         type: DataTypes.STRING(100),
         allowNull: false
     },
     email: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(150),
         allowNull: false,
         unique: true
     },
-    passsword: {
+    contrasenia: {
         type: DataTypes.STRING(255),
         allowNull: false
-    },
-    direccion: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-    },
-    ciudad: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-    },
-    pais: {
-        type: DataTypes.STRING(50),
-        allowNull: false
-    },
-    telefono: {
-        type: DataTypes.STRING(15),
-        allowNull: false
-    },
-    fecha_nacimiento: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    estado: {
-        type: DataTypes.TINYINT,
-        defaultValue: 1
     },
     createdAt: {
         type: DataTypes.DATE,

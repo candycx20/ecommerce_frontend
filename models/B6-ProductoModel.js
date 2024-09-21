@@ -1,9 +1,15 @@
 import db from "../database/db.js";
 import { DataTypes } from "sequelize";
-import ProductoSucursalModel from "./C4-ProductoSucursalModel.js";
-import MarcaModel from "./A3-MarcaModel.js";
+import CategoriaModel from "./A1-CategoriaModel.js";
+import MarcaModel from "./A2-MarcaModel.js";
+import TallaModel from "./A3-TallaModel.js";
 
- const ProductoModel = db.define('productos', {
+const ProductoModel = db.define('productos', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     codigo: {
         type: DataTypes.STRING(50),
         allowNull: false
@@ -14,7 +20,19 @@ import MarcaModel from "./A3-MarcaModel.js";
     },
     descripcion: {
         type: DataTypes.TEXT,
-        allowNull: true
+        allowNull: false
+    },
+    existencia: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    precio: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+    },
+    costo: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
     },
     estado: {
         type: DataTypes.TINYINT,
@@ -32,7 +50,7 @@ import MarcaModel from "./A3-MarcaModel.js";
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'marcas',
+            model: 'marca',
             key: 'id'
         }
     },
@@ -40,7 +58,7 @@ import MarcaModel from "./A3-MarcaModel.js";
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'categorias', 
+            model: 'categoria',
             key: 'id'
         }
     },
@@ -48,7 +66,7 @@ import MarcaModel from "./A3-MarcaModel.js";
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'tallas', 
+            model: 'tallas',
             key: 'id'
         }
     }
@@ -57,10 +75,10 @@ import MarcaModel from "./A3-MarcaModel.js";
     timestamps: true
 });
 
+
 // Definición de las relaciones
-ProductoModel.hasMany(ProductoSucursalModel, { foreignKey: 'id_producto' });
+ProductoModel.belongsTo(CategoriaModel, { foreignKey: 'id_categoria' }); 
 ProductoModel.belongsTo(MarcaModel, { foreignKey: 'id_marca' }); 
-// ProductoModel.belongsTo(CategoriaModel, { foreignKey: 'id_categoria' });
-// ProductoModel.belongsTo(TallaModel, { foreignKey: 'id_talla' });
+ProductoModel.belongsTo(TallaModel, { foreignKey: 'id_talla' });
 
 export default ProductoModel;
