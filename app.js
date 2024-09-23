@@ -4,6 +4,8 @@ import cors from 'cors'
 import db from './database/db.js'
 import ProductoRoute from './routes/ProductoRoute.js'
 import CarritoCompraRoute from './routes/CarritoCompraRoute.js'
+import UsuarioRoute from './routes/UsuarioRoute.js'
+
 
 const app = express()
 
@@ -12,6 +14,7 @@ app.use(express.json())
 
 app.use('/productos', ProductoRoute);
 app.use('/carritoCompras', CarritoCompraRoute);
+app.use('/usuarios', UsuarioRoute);
 
 try{
     await db.authenticate()
