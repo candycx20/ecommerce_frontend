@@ -7,10 +7,6 @@ const CarritoCompraModel = db.define('carrito_compras', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    total: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false
-    },
     estado: {
         type: DataTypes.TINYINT,
         defaultValue: 1
