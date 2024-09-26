@@ -5,9 +5,11 @@ import TallaModel from "../models/A3-TallaModel.js";
 
 export const getAllCarritoCompras = async (req, res) => {
     try {
+        const {id_usuario} = req.query;
         const CarritoCompras = await CarritoCompraModel.findAll({
             where : {
-                estado: 1
+                estado: 1,
+                id_usuario: id_usuario
             },
             include: [
                 {
