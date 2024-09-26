@@ -41,22 +41,29 @@ export const getAllAdministradores = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const {email, contrasenia} = req.body;
-        const Usuario = await UsuarioModel.findAll({
-            where:{ 
+        const Usuario = await UsuarioModel.findOne({
+            where: { 
                 email: email,
                 contrasenia: contrasenia
             }
-        })
-        if(Usuario.length > 0){
-            const token = jwt.sign({email}, "Stack",{
-                expiresIn: '15m'
-            })
+        });
+        
+        if(Usuario){
+            const token = jwt.sign(
+                {
+                    id: Usuario.id,   
+                    email: Usuario.email,
+                    rol: Usuario.id_rol
+                }, 
+                "Stack",  
+                { expiresIn: '15m' } 
+            );
             res.json({token});
-        }else{
+        } else {
             console.log('No existe Usuario');
             res.json({message: 'No existe Usuario'});
         }
     } catch (error) {
         res.json( {message: error.message} )
     }
-}
+};
