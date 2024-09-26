@@ -10,6 +10,34 @@ export const getAllUsuarios = async (req, res) => {
     }
 }
 
+export const getAllClientes = async (req, res) => {
+    try {
+        const Usuarios = await UsuarioModel.findAll({
+            where: {
+                rol: 2,
+                estado: 1
+            }
+        })
+        res.json(Usuarios)
+    } catch (error) {
+        res.json( {message: error.message} )
+    }
+}
+
+export const getAllAdministradores = async (req, res) => {
+    try {
+        const Usuarios = await UsuarioModel.findAll({
+            where: {
+                rol: 1,
+                estado: 1
+            }
+        })
+        res.json(Usuarios)
+    } catch (error) {
+        res.json( {message: error.message} )
+    }
+}
+
 export const login = async (req, res) => {
     try {
         const {email, contrasenia} = req.body;
@@ -21,7 +49,7 @@ export const login = async (req, res) => {
         })
         if(Usuario.length > 0){
             const token = jwt.sign({email}, "Stack",{
-                expiresIn: '3m'
+                expiresIn: '15m'
             })
             res.json({token});
         }else{
