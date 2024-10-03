@@ -12,10 +12,12 @@ import DetallePedidoRoute from './routes/DetallePedidoRoute.js'
 const app = express()
 
 app.use(cors({
-    origin: '*',  // Permite todas las solicitudes de cualquier origen
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Permite los métodos necesarios
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Content-Type-Options', 'Accept', 'X-Requested-With', 'Origin']
+    origin: 'http://react-ecommerce-candy.s3-website-us-east-2.amazonaws.com',  // Solo permite este dominio
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,  // Permite cookies y credenciales
+    allowedHeaders: ['Content-Type', 'Authorization']
   }));
+  
   
 app.use(express.json())
 
