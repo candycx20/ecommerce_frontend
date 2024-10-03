@@ -2,13 +2,18 @@ import db from "../database/db.js";
 import { DataTypes } from "sequelize";
 
 const PedidoModel = db.define('pedidos', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     no_pedido: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true
     },
     fecha: {
         type: DataTypes.DATE,
-        allowNull: false
+        defaultValue: DataTypes.NOW
     },
     subtotal: {
         type: DataTypes.DECIMAL(10, 2),
@@ -24,6 +29,14 @@ const PedidoModel = db.define('pedidos', {
     },
     direccion_envio: {
         type: DataTypes.STRING(255),
+        allowNull: true
+    },
+    provincia_envio: {
+        type: DataTypes.STRING(100),
+        allowNull: true
+    },
+    codigo_postal: {
+        type: DataTypes.STRING(20),
         allowNull: true
     },
     ciudad_envio: {
@@ -56,7 +69,14 @@ const PedidoModel = db.define('pedidos', {
     }
 }, {
     tableName: 'pedidos',
-    timestamps: true
+    timestamps: true,
+    hooks: {
+        afterCreate: async (pedido, options) => {
+            // Asigna el valor de id a no_pedido después de crear el pedido
+            pedido.no_pedido = pedido.id.toString();
+            await pedido.save();
+        }
+    }
 });
 
 export default PedidoModel;

@@ -5,6 +5,8 @@ import db from './database/db.js'
 import ProductoRoute from './routes/ProductoRoute.js'
 import CarritoCompraRoute from './routes/CarritoCompraRoute.js'
 import UsuarioRoute from './routes/UsuarioRoute.js'
+import PedidoRoute from './routes/PedidoRoute.js'
+import DetallePedidoRoute from './routes/DetallePedidoRoute.js'
 
 
 const app = express()
@@ -15,6 +17,9 @@ app.use(express.json())
 app.use('/productos', ProductoRoute);
 app.use('/carritoCompras', CarritoCompraRoute);
 app.use('/usuarios', UsuarioRoute);
+app.use('/pedidos', PedidoRoute);
+app.use('/detallePedidos', DetallePedidoRoute);
+
 
 try{
     await db.authenticate()

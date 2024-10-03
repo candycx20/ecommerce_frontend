@@ -67,3 +67,28 @@ export const login = async (req, res) => {
         res.json( {message: error.message} )
     }
 };
+
+export const createUsuario = async (req, res) => {
+    try {
+        
+       await UsuarioModel.create(req.body)
+       res.json({
+           "message":"¡Registro creado correctamente!"
+       })
+    } catch (error) {
+        res.json( {message: error.message} )
+    }
+}
+
+export const updateUsuario = async (req, res) => {
+    try {
+        await UsuarioModel.update(req.body, {
+            where: { id: req.params.id}
+        })
+        res.json({
+            "message":"¡Registro actualizado correctamente!"
+        })
+    } catch (error) {
+        res.json( {message: error.message} )
+    }
+}
