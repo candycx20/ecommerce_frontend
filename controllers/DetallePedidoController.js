@@ -23,7 +23,7 @@ export const getDetallePedido = async (req, res) => {
 export const createDetallePedido = async (req, res) => {
     try {
         const { cantidad, precio} = req.body;
-        total = cantidad * precio;
+        const total = cantidad * precio;
 
        await DetallePedidoModel.create({
         ...req.body,

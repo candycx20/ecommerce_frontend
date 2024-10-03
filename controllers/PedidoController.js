@@ -1,4 +1,4 @@
-import PedidoModel from "../models/B2-PedidoModel.js";
+import PedidoModel from "../models/B4-PedidoModel.js";
 
 export const getAllPedidos = async (req, res) => {
     try {
@@ -25,12 +25,13 @@ export const createPedido = async (req, res) => {
         const { subtotal, descuento } = req.body;
         const total = subtotal - descuento;
         
-        await PedidoModel.create({
+       const pedido = await PedidoModel.create({
             ...req.body,
             total 
         });
         
         res.json({
+            id: pedido.id,
             message: "¡Registro creado correctamente!"
         });
     } catch (error) {
