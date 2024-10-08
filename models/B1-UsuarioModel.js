@@ -9,7 +9,7 @@ const UsuarioModel = db.define('usuarios', {
     },
     nombre_usuario: {
         type: DataTypes.STRING(100),
-        allowNull: true
+        allowNull: false
     },
     email: {
         type: DataTypes.STRING(150),
@@ -30,15 +30,15 @@ const UsuarioModel = db.define('usuarios', {
     },
     nombre: {
         type: DataTypes.STRING(100),
-        allowNull: true
+        allowNull: false
     },
     apellido: {
         type: DataTypes.STRING(100),
-        allowNull: true
+        allowNull: false
     },
     telefono: {
         type: DataTypes.STRING(20),
-        allowNull: true
+        allowNull: false
     },
     direccion: {
         type: DataTypes.STRING(255),

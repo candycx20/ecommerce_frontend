@@ -1,5 +1,7 @@
 import UsuarioModel from "../models/B1-UsuarioModel.js";
 import  jwt  from "jsonwebtoken";
+import { Op } from "sequelize";
+
 
 export const getAllUsuarios = async (req, res) => {
     try {
@@ -61,7 +63,7 @@ export const login = async (req, res) => {
             res.json({token});
         } else {
             console.log('No existe Usuario');
-            res.json({message: 'No existe Usuario'});
+            res.status(401).json({message: 'No existe Usuario o la contraseña es incorrecta'});
         }
     } catch (error) {
         res.json( {message: error.message} )
@@ -70,11 +72,25 @@ export const login = async (req, res) => {
 
 export const createUsuario = async (req, res) => {
     try {
-        
-       await UsuarioModel.create(req.body)
-       res.json({
-           "message":"¡Registro creado correctamente!"
-       })
+        const {nombre_usuario, email} = req.body;
+        const Usuario = await UsuarioModel.findOne({
+            where: { 
+                [Op.or]: [
+                    { email: email }, 
+                    { nombre_usuario: nombre_usuario }
+                ]
+            }
+        });
+        if(Usuario){ 
+            return res.status(400).json({
+                message: "El nombre de usuario o correo electrónico ya está en uso"
+            });
+        }else{
+            await UsuarioModel.create(req.body)
+            res.status(201).json({
+                "message":"¡Registro creado correctamente!"
+            })
+        }
     } catch (error) {
         res.json( {message: error.message} )
     }
