@@ -1,8 +1,9 @@
 import express from 'express'   
-import { getAllUsuarios, getAllClientes, getAllAdministradores, login, createUsuario, updateUsuario } from '../controllers/UsuarioController.js'
+import { getUsuario ,getAllUsuarios, getAllClientes, getAllAdministradores, login, createUsuario, updateUsuario } from '../controllers/UsuarioController.js'
 
 const router = express.Router()
 
+router.get('/:id', getUsuario)
 router.get('/', getAllUsuarios)
 router.get('/clientes', getAllClientes)
 router.get('/administradores', getAllAdministradores)

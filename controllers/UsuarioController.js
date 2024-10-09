@@ -3,6 +3,24 @@ import  jwt  from "jsonwebtoken";
 import { Op } from "sequelize";
 
 
+export const getUsuario = async (req, res) => {
+    try {
+        const Usuario = await UsuarioModel.findOne({
+            where: { id: req.params.id },
+            attributes: ['nombre', 'apellido', 'telefono', 'email']
+        });
+        
+        if (!Usuario) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+        
+        res.json(Usuario);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 export const getAllUsuarios = async (req, res) => {
     try {
         const Usuarios = await UsuarioModel.findAll()
