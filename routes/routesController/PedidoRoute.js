@@ -1,5 +1,5 @@
 import express from 'express'   
-import { getAllPedidos, getPedido, createPedido, updatePedido } from '../controllers/PedidoController.js'
+import { getAllPedidos, getPedido, createPedido, updatePedido } from '../../controllers/PedidoController.js'
 
 const router = express.Router()
 
