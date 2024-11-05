@@ -14,7 +14,7 @@ export const getAllCarritoCompras = async (req, res) => {
             include: [
                 {
                     model: ProductoModel,
-                    attributes: ['nombre', 'precio', 'id'],
+                    attributes: ['nombre', 'precio', 'id', 'descripcion'],
                     include: [
                         {
                             model: MarcaModel,
