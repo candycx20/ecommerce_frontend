@@ -1,4 +1,5 @@
 import MarcaModel from "../models/A2-MarcaModel.js";
+import TallaModel from "../models/A3-TallaModel.js";
 import ProductoModel from "../models/B6-ProductoModel.js";
 
 export const getAllProductos = async (req, res) => {
@@ -8,6 +9,10 @@ export const getAllProductos = async (req, res) => {
                 {
                     model: MarcaModel,
                     attributes: ['nombre']
+                },
+                {
+                    model: TallaModel,
+                    attributes: ['descripcion']
                 }
             ]
         })

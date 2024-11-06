@@ -49,11 +49,11 @@ export const createPedido = async (req, res) => {
             console.error("Error al crear la factura:", error.message);
             return res.status(500).json({ message: "Error al crear la factura" });
         }
-        console.log(factura)
 
         res.json({
             id: pedido.id,
             id_factura: factura.id, 
+            factura,
             message: "¡Pedido y factura creados correctamente!"
         });
     } catch (error) {

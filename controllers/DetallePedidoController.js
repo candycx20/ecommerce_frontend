@@ -1,5 +1,6 @@
 import DetallePedidoModel from "../models/C1-DetallePedidoModel.js";
 import xmlbuilder from 'xmlbuilder';
+import xml2js from 'xml2js';
 import axios from 'axios';
 
 export const getAllDetallePedidos = async (req, res) => {
@@ -49,10 +50,14 @@ export const createDetallePedido = async (req, res) => {
             total,
             id_factura
         };
-        console.log(descripcion)
-        await sendItemToApi(itemData);
+        const responseItem = await sendItemToApi(itemData);
+
+        const items = await xmlToJson(responseItem.data);
+        
+        const item = items.item;
 
         res.json({
+            item,
             message: "¡Detalle del pedido creado correctamente y enviado a la API de Items!",
         });
     } catch (error) {
@@ -74,12 +79,24 @@ const sendItemToApi = async (detallePedido) => {
             .ele('id_factura', detallePedido.id_factura).up()
             .end({ pretty: true });
             
-        await axios.post('http://facturacion.candy21.icu/api/items/create', xml, {
+        const response = await axios.post('http://facturacion.candy21.icu/api/items/create', xml, {
             headers: { 'Content-Type': 'application/xml' }
         });
+
+        return response;
     } catch (error) {
         console.error("Error al enviar el item a la API de Items:", error.message);
+        throw error;
     }
+};
+
+const xmlToJson = (xml) => {
+    return new Promise((resolve, reject) => {
+        xml2js.parseString(xml, { explicitArray: false }, (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
 };
 
 export const updateDetallePedido = async (req, res) => {
