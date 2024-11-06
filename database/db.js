@@ -1,9 +1,15 @@
 import {Sequelize} from 'sequelize'
 
-const db = new Sequelize('ecommerce', 'admin', 'Q3HH7DQ6',{
-    host:'database-1.c9s08qs0yb7v.us-east-2.rds.amazonaws.com',
+const database = process.env.MYSQL_DATABASE;
+const username = process.env.MYSQL_USER;
+const password = process.env.MYSQL_PASSWORD;
+const host = process.env.MYSQL_HOST;
+
+
+const db = new Sequelize(database, username, password,{
+    host,
     dialect: 'mysql',
-    port: '3308'
+    port: process.env.MYSQL_PORT
 })
 
 export default db

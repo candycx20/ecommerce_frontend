@@ -1,4 +1,7 @@
 import DetallePedidoModel from "../models/C1-DetallePedidoModel.js";
+import xmlbuilder from 'xmlbuilder';
+import xml2js from 'xml2js';
+import axios from 'axios';
 
 export const getAllDetallePedidos = async (req, res) => {
     try {
@@ -22,20 +25,79 @@ export const getDetallePedido = async (req, res) => {
 
 export const createDetallePedido = async (req, res) => {
     try {
-        const { cantidad, precio} = req.body;
-        const total = cantidad * precio;
+        const { cantidad, precio, id_pedido, id_producto, descuento, otros_descuento } = req.body;
+        
+        const total = cantidad * precio - (descuento || 0) - (otros_descuento || 0);
+        
+        await DetallePedidoModel.create({
+            cantidad,
+            precio,
+            total,
+            id_pedido,
+            id_producto
+        });
 
-       await DetallePedidoModel.create({
-        ...req.body,
-        total
-    });
-       res.json({
-           "message":"¡Registro creado correctamente!"
-       })
+        const { nombre, tipo_item, descripcion, id_factura } = req.body;
+
+        const itemData = {
+            cantidad,
+            precio,
+            nombre,
+            tipo_item,
+            descripcion,
+            descuento,
+            otros_descuento,
+            total,
+            id_factura
+        };
+        const responseItem = await sendItemToApi(itemData);
+
+        const items = await xmlToJson(responseItem.data);
+        
+        const item = items.item;
+
+        res.json({
+            item,
+            message: "¡Detalle del pedido creado correctamente y enviado a la API de Items!",
+        });
     } catch (error) {
-        res.json( {message: error.message} )
+        res.json({ message: error.message });
     }
-}
+};
+
+const sendItemToApi = async (detallePedido) => {
+    try {
+        const xml = xmlbuilder.create('item')
+            .ele('nombre', detallePedido.nombre).up()
+            .ele('tipo_item', detallePedido.tipo_item).up()
+            .ele('cantidad', detallePedido.cantidad).up()
+            .ele('descripcion', detallePedido.descripcion).up()
+            .ele('precio', detallePedido.precio).up()
+            .ele('descuento', detallePedido.descuento || 0).up()
+            .ele('otros_descuento', detallePedido.otros_descuento || 0).up()
+            .ele('total', detallePedido.total).up()
+            .ele('id_factura', detallePedido.id_factura).up()
+            .end({ pretty: true });
+            
+        const response = await axios.post('http://facturacion.candy21.icu/api/items/create', xml, {
+            headers: { 'Content-Type': 'application/xml' }
+        });
+
+        return response;
+    } catch (error) {
+        console.error("Error al enviar el item a la API de Items:", error.message);
+        throw error;
+    }
+};
+
+const xmlToJson = (xml) => {
+    return new Promise((resolve, reject) => {
+        xml2js.parseString(xml, { explicitArray: false }, (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
+};
 
 export const updateDetallePedido = async (req, res) => {
     try {
